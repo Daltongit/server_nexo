@@ -1,5 +1,6 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+
 const app = express();
 
 app.use(cors());
@@ -8,12 +9,12 @@ app.use(express.json());
 app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
     
-    // Prompt estructurado para darle personalidad a TinyLlama
     const prompt = `Eres NEXO, un asistente virtual empático, amable y humano. Tu objetivo es ayudar al usuario a sentirse bien. Responde de forma corta, conversacional y en español.
 Usuario: ${message}
 NEXO:`;
 
     try {
+        // Node 20 (que usas en tu Dockerfile) ya trae fetch nativo
         const response = await fetch('http://localhost:11434/api/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,5 +33,6 @@ NEXO:`;
     }
 });
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor NEXO activo en puerto ${PORT}`));
+// Configuración vital para Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => console.log(`Servidor NEXO activo en puerto ${PORT}`));
