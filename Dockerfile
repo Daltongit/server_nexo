@@ -1,6 +1,6 @@
- FROM node:20-slim
+FROM node:20-slim
 
-RUN apt-get update && apt-get install -y curl && \
+RUN apt-get update && apt-get install -y curl zstd && \
     curl -fsSL https://ollama.com/install.sh | sh
 
 WORKDIR /app
